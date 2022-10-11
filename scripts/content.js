@@ -1,10 +1,12 @@
 let cyberPercent = 0;
+let Cyberstatus = true;
+
 window.addEventListener("load", function () {
   const url = window.location.href;
   const isProfile = url.split("/").length < 6;
   const username = url.split("/")[3];
   console.log(isProfile, url, url.split("/").length);
-  if (url && isProfile) {
+  if (url && isProfile && Cyberstatus) {
     console.log("loaded");
     var retry = 0;
     var intervalId = setInterval(function () {
@@ -87,7 +89,7 @@ window.addEventListener("load", function () {
         if (nowYear && joinedDate && nowYear == joinedDate) cyberPercent += 10;
 
         //check name
-        const checkWords = ["انقلاب", "ولایت", "🇮🇷", "سادات"];
+        const checkWords = ["انقلاب", "ولایت", "🇮🇷", "سادات", "🧕🏻"];
         let name = document.querySelector("title");
         if (name) {
           for (let i = 0; i < checkWords.length; i++) {
@@ -142,6 +144,7 @@ window.addEventListener("load", function () {
           "وطن",
           "یامهدی",
           "الليلة",
+          "🧕🏻",
         ];
         let description = document.querySelector(
           "div[data-testid=UserDescription]"
@@ -156,10 +159,14 @@ window.addEventListener("load", function () {
         }
 
         //check location
-        const locationcheckWords = ["اسلامی", "فرمان", "رهبر", "خدا"];
-        let location = document.querySelector(
-          "div[data-testid=UserDescription]"
-        );
+        const locationcheckWords = [
+          "اسلامی",
+          "فرمان",
+          "رهبر",
+          "خدا",
+          "islamic",
+        ];
+        let location = document.querySelector("div[data-testid=UserLocation]");
         if (location) {
           for (let i = 0; i < locationcheckWords.length; i++) {
             if (location.innerText.includes(locationcheckWords[i])) {

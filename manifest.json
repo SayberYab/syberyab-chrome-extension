@@ -7,9 +7,13 @@
       "default_popup": "index.html",
       "default_icon": "hello_extensions.png"
     },
+    "background": {
+      "service_worker": "./scripts/background.js"
+    },
     "content_scripts": [{
-      "css": ["styles.css"],
-      "js": ["content.js"],
+      "css": ["./styles/content-style.css"],
+      "js": ["./scripts/content.js"],
       "matches": ["https://twitter.com/*"]
-    }]
+    }],
+    "permissions": []
   }
