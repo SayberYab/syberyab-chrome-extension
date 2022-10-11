@@ -1,5 +1,7 @@
 @import url(fontiran.css); 
 
+
+
 :root:not(.dark) {
     --background-color: #ffffff;
     --primary-color: #dab007;
@@ -29,19 +31,28 @@ h1, h2, h3, h4, h5, h6,input, textarea,button {
 }
 
 .wrapper {
-    width: 275px;
+    width: 300px;
     /* height: 400px; */
-    padding: 15px 30px;
+    padding: 15px 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     flex-direction: column;
     gap: 90px;
     transition: background-color,color 600ms;
     background-color: var(--background-color);
     color: var(--font-color);
-    border-radius: 20px;
+    /* border-radius: 20px; */
 
+}
+
+.change-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    gap: 90px;
 }
 
 .wrapper-header {
@@ -115,3 +126,117 @@ h1, h2, h3, h4, h5, h6,input, textarea,button {
     cursor: pointer;
     font-size: 13px;
 }
+
+.add-word-header {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    gap: 5px;
+}
+
+.add-word-header > input {
+    border: none;
+    outline: none;
+    background-color: rgb(34, 34, 34);
+    color: white;
+    width: 200px;
+    height: 40px;
+    border-radius: 5px;
+    padding: 0 10px;
+}
+
+.add-word-header > input::placeholder {
+    color: rgb(206, 206, 206);
+}
+
+.add-word-header > button {
+    border: none;
+    outline: none;
+    background-color: rgb(25, 61, 145);
+    /* width: 200px; */
+    height: 40px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 200ms;
+}
+
+.add-word-header > button:hover {
+    background-color: rgb(43, 88, 194);
+}
+
+.add-word-body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    min-height: 100px;
+    flex-flow: wrap;
+    gap: 10px;
+    color: white;
+}
+
+.add-word-body-item {
+    background-color: rgb(47, 47, 47);
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.export-word,.import-word {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: row;
+    gap: 2px;
+    font-size: 10px;
+    color: rgb(169 169 169);
+    cursor: pointer;
+    background-color: #2c2c2c;
+    border-radius: 10px;
+    padding: 5px 9px;
+    transition: background-color 200ms;
+}
+
+.export-word:hover,.import-word:hover {
+    background-color: #464646;
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 16px !important;  /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+  
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+  
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+  
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+  }

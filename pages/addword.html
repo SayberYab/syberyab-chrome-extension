@@ -1,20 +1,26 @@
 <div class="wrapper-header">
-    <span class="logo-text">افزودن کلمات حساس</span>
-    <!-- <span class="add-word">افزودن کلمات حساس</span> -->
-
+    <span class="logo-text">کلمات حساس</span>
+    <span class="import-word">
+        وارد کردن
+        <span class="material-icons">&#xe255;</span>
+    </span>
+    <span class="export-word">
+        کپی کردن
+        <span class="material-icons">&#xe14d;</span>
+        <input type="text" id="myInput" style="display: none;visibility: none;">
+    </span>
 </div>
 <div class="wrapper-body">
-
+    <div class="add-word-header">
+        <input type="text" placeholder="کلمه مورد نظر خود را وارد کنید">
+        <button>افزودن</button>
+    </div>
+    <div class="add-word-body">
+        <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
 </div>
-<div class="wrapper-footer">
-    <span>توسعه داده شده با عشق</span>
-    <!-- <span class="dark-mode">
-        <span class="dark-mode-text">حالت شب</span>
-        <label class="switch">
-            <input type="checkbox">
-            <span class="slider round"></span>
-        </label>
-    </span> -->
-
-</div>
-<script src="../scripts/add-word.js"></script>
