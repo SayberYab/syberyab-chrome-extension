@@ -1,35 +1,16 @@
-// function loadHTML() {
-//   fetch("home.html")
-//     .then((response) => response.text())
-//     .then((text) => (document.querySelector(".wrapper").innerHTML = text));
-// }
-
-// loadHTML();
-
-function loadFileAsText() {
-  var myFile = document.getElementById("myFile").files[0];
-
-  var fileReader = new FileReader();
-  fileReader.onload = function (fileLoadedEvent) {
-    var textFromFileLoaded = fileLoadedEvent.target.result;
-    document.getElementById("inputTextToSave").value = textFromFileLoaded;
-    console.log(textFromFileLoaded);
-  };
-
-  fileReader.readAsText(myFile, "UTF-8");
-}
-function savefile() {
-  var content = document.getElementById("inputTextToSave").value;
-  uriContent = "data:application/octet-stream," + encodeURIComponent(content);
-  document.getElementById("dlink").innerHTML =
-    "<a href=" +
-    uriContent +
-    ' download="savedfile.txt">Here is the download link</a>';
-}
-
-function words_body_item(wrapper, text) {
+function words_body_item(wrapper, text, words) {
   const item = document.createElement("div");
   item.className = "add-word-body-item";
+  item.addEventListener("click", function () {
+    item.remove();
+    const temp = new Set(JSON.parse(words));
+    const index = temp.indexOf(text);
+    temp.splice(index, 1);
+    window.localStorage.setItem(
+      "cyber-words",
+      JSON.stringify(Array.from(temp))
+    );
+  });
   item.innerText = text;
   wrapper.appendChild(item);
 }
@@ -45,10 +26,17 @@ addWord.addEventListener("click", function () {
   var intervalId = setInterval(function () {
     const addButton = document.querySelector(".add-word-header > button");
     const addInput = document.querySelector(".add-word-header > input");
-    const words = window.localStorage.getItem("cyber-words") || null;
+    let words = window.localStorage.getItem("cyber-words") || null;
     const import_word = document.querySelector(".import-word");
     const export_word = document.querySelector(".export-word");
-    console.log(words);
+    const notifclose = document.querySelector(".notif > .close");
+    const notifclosewrapper = document.querySelector(".notif-wrapper");
+    const addwordlistinput = document.querySelector(".addwordlist > input");
+    const addwordlistwrapper_close =
+      document.querySelector(".addwordlist-close");
+    const addwordlistwrapper = document.querySelector(
+      ".addwordlist-wrapper-close"
+    );
     const words_body = document.querySelector(".add-word-body");
     if (words === null) {
       words_body.innerHTML = "موردی یافت نشد";
@@ -56,19 +44,23 @@ addWord.addEventListener("click", function () {
 
     if (words && JSON.parse(words).length > 0) {
       words_body.innerHTML = "";
-      const temp = JSON.parse(words);
-      for (let i = 0; i < temp.length; i++) {
-        words_body_item(words_body, temp[i]);
-      }
+      const temp = new Set(JSON.parse(words));
+      console.log(temp);
+      temp.forEach((element) => {
+        words_body_item(words_body, element, words);
+      });
     }
 
     function additemtowords() {
       if (words && JSON.parse(words).length > 0 && addInput.value) {
-        const temp = JSON.parse(words);
-        temp.push(addInput.value);
+        const temp = new Set(JSON.parse(words));
+        temp.add(addInput.value);
         words_body_item(words_body, addInput.value);
         addInput.value = "";
-        window.localStorage.setItem("cyber-words", JSON.stringify(temp));
+        window.localStorage.setItem(
+          "cyber-words",
+          JSON.stringify(Array.from(temp))
+        );
       }
     }
 
@@ -77,6 +69,10 @@ addWord.addEventListener("click", function () {
     });
 
     addButton.addEventListener("click", additemtowords);
+
+    import_word.addEventListener("click", function () {
+      document.querySelector(".addwordlist-wrapper").style.display = "flex";
+    });
 
     export_word.addEventListener("click", function () {
       // Get the text field
@@ -91,7 +87,36 @@ addWord.addEventListener("click", function () {
       navigator.clipboard.writeText(copyText.value);
 
       // Alert the copied text
-      alert("Copied the text: " + copyText.value);
+      // alert("Copied the text: " + copyText.value);
+      document.querySelector(".notif-wrapper").style.display = "flex";
+    });
+    notifclose.addEventListener("click", function () {
+      document.querySelector(".notif-wrapper").style.display = "none";
+    });
+    notifclosewrapper.addEventListener("click", function () {
+      document.querySelector(".notif-wrapper").style.display = "none";
+    });
+    addwordlistwrapper.addEventListener("click", function () {
+      document.querySelector(".addwordlist-wrapper").style.display = "none";
+    });
+    addwordlistwrapper_close.addEventListener("click", function () {
+      document.querySelector(".addwordlist-wrapper").style.display = "none";
+      const inputlistword = new Set(JSON.parse(addwordlistinput.value));
+      const temp = new Set(JSON.parse(words));
+      const finalwordlist = new Set([...inputlistword, ...temp]);
+      console.log(finalwordlist);
+      window.localStorage.setItem(
+        "cyber-words",
+        JSON.stringify(Array.from(finalwordlist))
+      );
+      words = window.localStorage.getItem("cyber-words");
+      if (words && JSON.parse(words).length > 0) {
+        words_body.innerHTML = "";
+        const temp = new Set(JSON.parse(words));
+        temp.forEach((element) => {
+          words_body_item(words_body, element);
+        });
+      }
     });
 
     if (retry++ > 15 || words_body) clearInterval(intervalId);

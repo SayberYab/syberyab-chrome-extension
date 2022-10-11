@@ -216,27 +216,134 @@ input[type="file"] {
     background-color: #464646;
 }
 
-.material-icons {
-    font-family: 'Material Icons';
-    font-weight: normal;
-    font-style: normal;
-    font-size: 16px !important;  /* Preferred icon size */
-    display: inline-block;
-    line-height: 1;
-    text-transform: none;
-    letter-spacing: normal;
-    word-wrap: normal;
-    white-space: nowrap;
-    direction: ltr;
-  
-    /* Support for all WebKit browsers. */
-    -webkit-font-smoothing: antialiased;
-    /* Support for Safari and Chrome. */
-    text-rendering: optimizeLegibility;
-  
-    /* Support for Firefox. */
-    -moz-osx-font-smoothing: grayscale;
-  
-    /* Support for IE. */
-    font-feature-settings: 'liga';
+.export-word .material-icons,.import-word .material-icons {
+    font-size: 16px !important;
+}
+
+  .notif-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.721);
+    backdrop-filter: blur(5px);
+    z-index: 100;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    display: none;
   }
+
+  /* .notif-wrapper.show {
+    display: flex;
+  } */
+
+  .notif {
+    position: relative;
+    width: 250px;
+    height: 100px;
+    background-color: rgb(29, 29, 29);
+    border-radius: 5px;
+    z-index: 101;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .close {
+    background-color: rgb(21, 85, 225);
+    padding: 7px 15px;
+    color: white;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  .notif-text {
+    width: 80%;
+    font-size: 14px;
+    color: white;
+  }
+
+
+  .addwordlist-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.721);
+    backdrop-filter: blur(5px);
+    z-index: 100;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    display: none;
+  }
+
+  /* .notif-wrapper.show {
+    display: flex;
+  } */
+
+  .addwordlist {
+    position: relative;
+    width: 250px;
+    /* height: 100px; */
+    background-color: rgb(29, 29, 29);
+    border-radius: 5px;
+    z-index: 101;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+  }
+
+  .addwordlist-close {
+    background-color: rgb(21, 85, 225);
+    padding: 7px 15px;
+    color: white;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: row;
+    gap: 5px;
+  }
+
+  .addwordlist-text {
+    /* width: 80%; */
+    font-size: 14px;
+    color: white;
+  }
+
+  .addwordlist > input {
+    border: none;
+    outline: none;
+    background-color: rgb(75, 75, 75);
+    color: white;
+    width: 250px;
+    height: 45px;
+    border-radius: 5px;
+    padding: 10px 15px;
+}
+
+.addwordlist > input::placeholder {
+    color: rgb(206, 206, 206);
+}
+
+.addwordlist-wrapper-close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    color: white;
+    font-size: 35px !important;
+    cursor: pointer;
+}
