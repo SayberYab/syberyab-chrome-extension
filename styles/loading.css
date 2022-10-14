@@ -1,3 +1,19 @@
+:root:not(.dark) {
+    --background-color: #ffffff;
+    --primary-color: #dab007;
+    --secondary-color: #c4c4c4;
+    --font-color: rgb(23, 23, 23);
+    --secondary-font-color: rgb(113, 113, 113);
+  }
+  
+  :root.dark {
+    --background-color: #131313;
+    --primary-color: #2d066c;
+    --secondary-color: #1f1f1f;
+    --font-color: #efefef;
+    --secondary-font-color: #858585;
+  }
+
 .lds-ellipsis {
     display: inline-block;
     position: relative;
@@ -11,7 +27,7 @@
     width: 13px;
     height: 13px;
     border-radius: 50%;
-    background: #fff;
+    background: var(--font-color);
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
   }
   .lds-ellipsis div:nth-child(1) {

@@ -5,7 +5,7 @@
     "version": "1.0",
     "action": {
       "default_popup": "index.html",
-      "default_icon": "hello_extensions.png"
+      "default_icon": "icon.png"
     },
     "background": {
       "service_worker": "./scripts/background.js"
@@ -15,5 +15,5 @@
       "js": ["./scripts/content.js"],
       "matches": ["https://twitter.com/*"]
     }],
-    "permissions": []
+    "permissions": ["activeTab" , "tabs" , "storage"]
   }

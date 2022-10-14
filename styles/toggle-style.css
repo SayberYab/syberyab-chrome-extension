@@ -120,3 +120,4 @@ input:checked + .slider:before {
   .slider2.round:before {
     border-radius: 50%;
   }
+

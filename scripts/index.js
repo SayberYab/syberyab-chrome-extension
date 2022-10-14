@@ -1,17 +1,21 @@
 function words_body_item(wrapper, text, words) {
   const item = document.createElement("div");
+  const itemicon = document.createElement("span");
+  itemicon.className = "material-icons";
+  itemicon.innerHTML = "&#xe5cd;";
   item.className = "add-word-body-item";
+
   item.addEventListener("click", function () {
     item.remove();
     const temp = new Set(JSON.parse(words));
-    const index = temp.indexOf(text);
-    temp.splice(index, 1);
+    temp.delete(text);
     window.localStorage.setItem(
       "cyber-words",
       JSON.stringify(Array.from(temp))
     );
   });
   item.innerText = text;
+  item.appendChild(itemicon);
   wrapper.appendChild(item);
 }
 
@@ -125,7 +129,7 @@ addWord.addEventListener("click", function () {
 
 const CyberToggle = document.querySelector(".switch2 input");
 const CyberText = document.querySelector(".body-text");
-const Cyberstatus = window.localStorage.getItem("cyber-status") || null;
+let Cyberstatus = window.localStorage.getItem("cyber-status") || null;
 if (!Cyberstatus || Cyberstatus === null) {
   window.localStorage.setItem("cyber-status", "true");
   turnOn();
@@ -138,15 +142,51 @@ CyberToggle.addEventListener("change", function () {
   else turnOff();
 });
 
+// function changeinContent(e) {
+//   // Query tab
+//   let queryOptions = { active: true, currentWindow: true };
+//   let tabs = chrome.tabs.query(queryOptions);
+
+//   // Open up connection
+//   const port = chrome.tabs.connect(tabs[0].id, {
+//     name: "uiOps",
+//   });
+
+//   // Get input value
+//   port.postMessage({
+//     id: "ff",
+//   });
+
+//   port.onMessage.addListener(function (msg) {
+//     console.msg;
+//   });
+// }
+
 function turnOn() {
   window.localStorage.setItem("cyber-status", "true");
   CyberText.textContent = "سایبریاب روشن است";
   CyberToggle.checked = true;
+  chrome.storage.sync.set({ "cyber-status": "true" }, function () {
+    console.log("Value is set to " + "true");
+  });
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, { status: true }, function (response) {
+      console.log(response);
+    });
+  });
 }
 function turnOff() {
   window.localStorage.setItem("cyber-status", "false");
   CyberText.textContent = "سایبریاب خاموش است";
   CyberToggle.checked = false;
+  chrome.storage.sync.set({ "cyber-status": "false" }, function () {
+    console.log("Value is set to " + "false");
+  });
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, { status: false }, function (response) {
+      console.log(response);
+    });
+  });
 }
 
 const ThemeToggle = document.querySelector(".switch input");
@@ -176,3 +216,27 @@ function dark() {
   ThemeToggle.checked = true;
   document.querySelector(":root").classList.add("dark");
 }
+
+// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+//   console.log("message recived", request);
+//   sendResponse({ status: "done" });
+// });
+
+// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+//   // if (request.msg === "something_completed") {
+//   //  To do something
+//   console.log(request);
+//   // console.log(request.data.content);
+//   // }
+//   // sendResponse({ status: "done" });
+// });
+
+// chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+//   chrome.tabs.sendMessage(
+//     tabs[0].id,
+//     { greeting: "hello" },
+//     function (response) {
+//       console.log(response);
+//     }
+//   );
+// });

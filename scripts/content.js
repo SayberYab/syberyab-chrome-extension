@@ -6,7 +6,7 @@ window.addEventListener("load", function () {
   const isProfile = url.split("/").length < 6;
   const username = url.split("/")[3];
   console.log(isProfile, url, url.split("/").length);
-  if (url && isProfile && Cyberstatus) {
+  if (url && isProfile) {
     console.log("loaded");
     var retry = 0;
     var intervalId = setInterval(function () {
@@ -75,6 +75,15 @@ window.addEventListener("load", function () {
         tabWrapper.appendChild(tab);
 
         cyberycheckWrapper.classList = "cybericheck_wrapper";
+        chrome.runtime.sendMessage(
+          { message: "get-status" },
+          function (response) {
+            if (response && response.status === "true")
+              cyberycheckWrapper.style.display = "flex";
+            if (response && response.status === "false")
+              cyberycheckWrapper.style.display = "none";
+          }
+        );
         cyberycheck_inner.classList = "cybericheck_inner";
 
         //
@@ -210,3 +219,10 @@ function setTabContent() {
     tabContentWrapper.innerHTML = "";
   }
 }
+
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.status === false)
+    document.querySelector(".cybericheck_wrapper").style.display = "none";
+  if (request.status === true)
+    document.querySelector(".cybericheck_wrapper").style.display = "flex";
+});
