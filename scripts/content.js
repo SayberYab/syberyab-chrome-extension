@@ -5,6 +5,7 @@ window.addEventListener("load", function () {
   const url = window.location.href;
   const isProfile = url.split("/").length < 6;
   const username = url.split("/")[3];
+  let checkwords = [];
   console.log(isProfile, url, url.split("/").length);
   if (url && isProfile) {
     console.log("loaded");
@@ -89,6 +90,16 @@ window.addEventListener("load", function () {
         //
         //Cyber percent
         //
+
+        chrome.runtime.sendMessage(
+          { message: "get-words" },
+          function (response) {
+            if (response && response.length > 0 && response.words) {
+              console.log(response.words);
+              checkWords = Array.from(JSON.parse(response.words));
+            }
+          }
+        );
 
         //check joined date
         const nowYear = new Date().getFullYear();

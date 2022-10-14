@@ -129,13 +129,15 @@ addWord.addEventListener("click", function () {
 
 const CyberToggle = document.querySelector(".switch2 input");
 const CyberText = document.querySelector(".body-text");
-let Cyberstatus = window.localStorage.getItem("cyber-status") || null;
-if (!Cyberstatus || Cyberstatus === null) {
-  window.localStorage.setItem("cyber-status", "true");
-  turnOn();
-}
-if (Cyberstatus && Cyberstatus === "true") turnOn();
-if (Cyberstatus && Cyberstatus === "false") turnOff();
+chrome.storage.sync.get(["cyber-status"], function (result) {
+  console.log(result["cyber-status"]);
+  if (!result || !result["cyber-status"]) {
+    turnOn();
+  } else {
+    if (result["cyber-status"] === "true") turnOn();
+    if (result["cyber-status"] === "false") turnOff();
+  }
+});
 
 CyberToggle.addEventListener("change", function () {
   if (CyberToggle.checked === true) turnOn();
@@ -163,11 +165,10 @@ CyberToggle.addEventListener("change", function () {
 // }
 
 function turnOn() {
-  window.localStorage.setItem("cyber-status", "true");
+  // window.localStorage.setItem("cyber-status", "true");
   CyberText.textContent = "سایبریاب روشن است";
-  CyberToggle.checked = true;
   chrome.storage.sync.set({ "cyber-status": "true" }, function () {
-    console.log("Value is set to " + "true");
+    CyberToggle.checked = true;
   });
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     chrome.tabs.sendMessage(tabs[0].id, { status: true }, function (response) {
@@ -176,11 +177,10 @@ function turnOn() {
   });
 }
 function turnOff() {
-  window.localStorage.setItem("cyber-status", "false");
+  // window.localStorage.setItem("cyber-status", "false");
   CyberText.textContent = "سایبریاب خاموش است";
-  CyberToggle.checked = false;
   chrome.storage.sync.set({ "cyber-status": "false" }, function () {
-    console.log("Value is set to " + "false");
+    CyberToggle.checked = false;
   });
   chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     chrome.tabs.sendMessage(tabs[0].id, { status: false }, function (response) {
@@ -216,27 +216,3 @@ function dark() {
   ThemeToggle.checked = true;
   document.querySelector(":root").classList.add("dark");
 }
-
-// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-//   console.log("message recived", request);
-//   sendResponse({ status: "done" });
-// });
-
-// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-//   // if (request.msg === "something_completed") {
-//   //  To do something
-//   console.log(request);
-//   // console.log(request.data.content);
-//   // }
-//   // sendResponse({ status: "done" });
-// });
-
-// chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-//   chrome.tabs.sendMessage(
-//     tabs[0].id,
-//     { greeting: "hello" },
-//     function (response) {
-//       console.log(response);
-//     }
-//   );
-// });
