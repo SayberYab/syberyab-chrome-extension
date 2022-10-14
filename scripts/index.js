@@ -9,9 +9,11 @@ function words_body_item(wrapper, text, words) {
     item.remove();
     const temp = new Set(JSON.parse(words));
     temp.delete(text);
-    window.localStorage.setItem(
-      "cyber-words",
-      JSON.stringify(Array.from(temp))
+    chrome.storage.sync.set(
+      { "cyber-words": JSON.stringify(Array.from(temp)) },
+      function () {
+        addInput.value = "";
+      }
     );
   });
   item.innerText = text;
@@ -30,7 +32,6 @@ addWord.addEventListener("click", function () {
   var intervalId = setInterval(function () {
     const addButton = document.querySelector(".add-word-header > button");
     const addInput = document.querySelector(".add-word-header > input");
-    let words = window.localStorage.getItem("cyber-words") || null;
     const import_word = document.querySelector(".import-word");
     const export_word = document.querySelector(".export-word");
     const notifclose = document.querySelector(".notif > .close");
@@ -42,28 +43,50 @@ addWord.addEventListener("click", function () {
       ".addwordlist-wrapper-close"
     );
     const words_body = document.querySelector(".add-word-body");
-    if (words === null) {
-      words_body.innerHTML = "موردی یافت نشد";
-    }
-
-    if (words && JSON.parse(words).length > 0) {
-      words_body.innerHTML = "";
-      const temp = new Set(JSON.parse(words));
-      console.log(temp);
-      temp.forEach((element) => {
-        words_body_item(words_body, element, words);
-      });
-    }
+    let words = null;
+    chrome.storage.sync.get(["cyber-words"], function (result) {
+      console.log(result);
+      if (
+        !result["cyber-words"] ||
+        !JSON.parse(result["cyber-words"]).length > 0
+      ) {
+        words_body.innerHTML = "موردی یافت نشد";
+      }
+      if (
+        result &&
+        result["cyber-words"] &&
+        JSON.parse(result["cyber-words"]).length > 0
+      ) {
+        words = result["cyber-words"];
+        words_body.innerHTML = "";
+        const temp = new Set(JSON.parse(words));
+        console.log(temp);
+        temp.forEach((element) => {
+          words_body_item(words_body, element, words);
+        });
+      }
+    });
 
     function additemtowords() {
       if (words && JSON.parse(words).length > 0 && addInput.value) {
         const temp = new Set(JSON.parse(words));
         temp.add(addInput.value);
         words_body_item(words_body, addInput.value);
-        addInput.value = "";
-        window.localStorage.setItem(
-          "cyber-words",
-          JSON.stringify(Array.from(temp))
+        chrome.storage.sync.set(
+          { "cyber-words": JSON.stringify(Array.from(temp)) },
+          function () {
+            addInput.value = "";
+          }
+        );
+      } else if (addInput.value) {
+        const temp = new Set([]);
+        temp.add(addInput.value);
+        words_body_item(words_body, addInput.value);
+        chrome.storage.sync.set(
+          { "cyber-words": JSON.stringify(Array.from(temp)) },
+          function () {
+            addInput.value = "";
+          }
         );
       }
     }
@@ -108,111 +131,36 @@ addWord.addEventListener("click", function () {
       const inputlistword = new Set(JSON.parse(addwordlistinput.value));
       const temp = new Set(JSON.parse(words));
       const finalwordlist = new Set([...inputlistword, ...temp]);
-      console.log(finalwordlist);
-      window.localStorage.setItem(
-        "cyber-words",
-        JSON.stringify(Array.from(finalwordlist))
+      chrome.storage.sync.set(
+        { "cyber-words": JSON.stringify(Array.from(finalwordlist)) },
+        function () {
+          addInput.value = "";
+        }
       );
-      words = window.localStorage.getItem("cyber-words");
-      if (words && JSON.parse(words).length > 0) {
-        words_body.innerHTML = "";
-        const temp = new Set(JSON.parse(words));
-        temp.forEach((element) => {
-          words_body_item(words_body, element);
-        });
-      }
+      chrome.storage.sync.get(["cyber-words"], function (result) {
+        console.log(result);
+        if (
+          !result["cyber-words"] ||
+          !JSON.parse(result["cyber-words"]).length > 0
+        ) {
+          words_body.innerHTML = "موردی یافت نشد";
+        }
+        if (
+          result &&
+          result["cyber-words"] &&
+          JSON.parse(result["cyber-words"]).length > 0
+        ) {
+          words = result["cyber-words"];
+          words_body.innerHTML = "";
+          const temp = new Set(JSON.parse(words));
+          console.log(temp);
+          temp.forEach((element) => {
+            words_body_item(words_body, element, words);
+          });
+        }
+      });
     });
 
     if (retry++ > 15 || words_body) clearInterval(intervalId);
   }, 1000);
 });
-
-const CyberToggle = document.querySelector(".switch2 input");
-const CyberText = document.querySelector(".body-text");
-chrome.storage.sync.get(["cyber-status"], function (result) {
-  console.log(result["cyber-status"]);
-  if (!result || !result["cyber-status"]) {
-    turnOn();
-  } else {
-    if (result["cyber-status"] === "true") turnOn();
-    if (result["cyber-status"] === "false") turnOff();
-  }
-});
-
-CyberToggle.addEventListener("change", function () {
-  if (CyberToggle.checked === true) turnOn();
-  else turnOff();
-});
-
-// function changeinContent(e) {
-//   // Query tab
-//   let queryOptions = { active: true, currentWindow: true };
-//   let tabs = chrome.tabs.query(queryOptions);
-
-//   // Open up connection
-//   const port = chrome.tabs.connect(tabs[0].id, {
-//     name: "uiOps",
-//   });
-
-//   // Get input value
-//   port.postMessage({
-//     id: "ff",
-//   });
-
-//   port.onMessage.addListener(function (msg) {
-//     console.msg;
-//   });
-// }
-
-function turnOn() {
-  // window.localStorage.setItem("cyber-status", "true");
-  CyberText.textContent = "سایبریاب روشن است";
-  chrome.storage.sync.set({ "cyber-status": "true" }, function () {
-    CyberToggle.checked = true;
-  });
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, { status: true }, function (response) {
-      console.log(response);
-    });
-  });
-}
-function turnOff() {
-  // window.localStorage.setItem("cyber-status", "false");
-  CyberText.textContent = "سایبریاب خاموش است";
-  chrome.storage.sync.set({ "cyber-status": "false" }, function () {
-    CyberToggle.checked = false;
-  });
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, { status: false }, function (response) {
-      console.log(response);
-    });
-  });
-}
-
-const ThemeToggle = document.querySelector(".switch input");
-const ThemeText = document.querySelector(".dark-mode-text");
-const Themestatus = window.localStorage.getItem("theme") || null;
-if (!Themestatus || Themestatus === null) {
-  window.localStorage.setItem("theme", "dark");
-  light();
-}
-if (Themestatus && Themestatus === "light") light();
-if (Themestatus && Themestatus === "dark") dark();
-
-ThemeToggle.addEventListener("change", function () {
-  if (ThemeToggle.checked === false) light();
-  if (ThemeToggle.checked === true) dark();
-});
-
-function light() {
-  window.localStorage.setItem("theme", "light");
-  ThemeText.innerHTML = "حالت روز";
-  ThemeToggle.checked = false;
-  document.querySelector(":root").classList.remove("dark");
-}
-function dark() {
-  window.localStorage.setItem("theme", "dark");
-  ThemeText.innerHTML = "حالت شب";
-  ThemeToggle.checked = true;
-  document.querySelector(":root").classList.add("dark");
-}
