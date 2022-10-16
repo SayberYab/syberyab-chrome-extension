@@ -1,27 +1,38 @@
 // On and Off Switch
-const CyberToggle = document.querySelector(".switch2 input");
+const CyberToggle = document.querySelector(".switch2.words input");
 // On and Off Text
-const CyberText = document.querySelector(".body-text");
+const wordssens_wrapper = document.querySelector(".wrapper-body.words-sens");
+const wordssens_inner = wordssens_wrapper.querySelector(".wrapper-body-inner");
+const wordsStatusText = wordssens_wrapper.querySelector(".body-text");
+wordsStatusText.setAttribute("style", "opacity: 0.7;");
+wordssens_inner.setAttribute("style", "opacity: 0.2;");
 // get extention status from "chrome.storage"
 chrome.storage.sync.get(["cyber-status"], function (result) {
-  if (!result || !result["cyber-status"]) {
+  if (
+    !result ||
+    (!result["cyber-status"] === true && !result["cyber-status"] === false)
+  ) {
     // if cyber-status is not found , init that
-    swith(false);
+    swith2(true);
+    console.log("init");
   } else if (result["cyber-status"]) {
-    swith(result["cyber-status"]);
+    console.log("not init", result["cyber-status"]);
+
+    swith2(result["cyber-status"]);
   }
 });
 
-// listen to On and Off swith
+// listen to On and Off swith2
 CyberToggle.addEventListener("change", function () {
-  if (CyberToggle.checked === true) swith(true);
-  else swith(false);
+  if (CyberToggle.checked === true) swith2(true);
+  else swith2(false);
 });
 
-function swith(status) {
+function swith2(status) {
   // turn on
   if (status === true) {
-    CyberText.textContent = "سایبریاب روشن است";
+    wordsStatusText.setAttribute("style", "opacity: 1;");
+    wordssens_inner.setAttribute("style", "opacity: 1;");
     chrome.storage.sync.set({ "cyber-status": true }, function () {
       CyberToggle.checked = true;
     });
@@ -37,7 +48,9 @@ function swith(status) {
   }
   // turn off
   if (status === false) {
-    CyberText.textContent = "سایبریاب خاموش است";
+    console.log("off l");
+    wordsStatusText.setAttribute("style", "opacity: 0.7;");
+    wordssens_inner.setAttribute("style", "opacity: 0.2;");
     chrome.storage.sync.set({ "cyber-status": false }, function () {
       CyberToggle.checked = false;
     });

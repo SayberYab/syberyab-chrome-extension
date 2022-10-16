@@ -20,14 +20,27 @@ function words_body_item(wrapper, text, words) {
   item.appendChild(itemicon);
   wrapper.appendChild(item);
 }
-
 const addWord = document.querySelector(".add-word");
 addWord.addEventListener("click", function () {
-  fetch("./pages/addword.html")
-    .then((response) => response.text())
-    .then(
-      (text) => (document.querySelector(".change-wrapper").innerHTML = text)
-    );
+  // fetch("./pages/addword.html")
+  //   .then((response) => response.text())
+  //   .then(
+  //     (text) => (document.querySelector(".change-wrapper").innerHTML = text)
+  //   );
+
+  // const subclose = document.querySelector(".sub-header-close");
+  // function klhhh() {
+  //   fetch("../pages/home.html")
+  //     .then((response) => response.text())
+  //     .then(
+  //       (text) => (document.querySelector(".change-wrapper").innerText = text)
+  //     );
+  // }
+  document.querySelector(".addword-wrapper").style.display = "flex";
+  const addwordwrapperclose = document.querySelector(".addword-wrapper-closee");
+  addwordwrapperclose.addEventListener("click", function () {
+    document.querySelector(".addword-wrapper").style.display = "none";
+  });
   var retry = 0;
   var intervalId = setInterval(function () {
     const addButton = document.querySelector(".add-word-header > button");
@@ -102,19 +115,11 @@ addWord.addEventListener("click", function () {
     });
 
     export_word.addEventListener("click", function () {
-      // Get the text field
       let copyText = document.getElementById("myInput");
       copyText.value = words;
-
-      // Select the text field
       copyText.select();
       copyText.setSelectionRange(0, 99999); // For mobile devices
-
-      // Copy the text inside the text field
       navigator.clipboard.writeText(copyText.value);
-
-      // Alert the copied text
-      // alert("Copied the text: " + copyText.value);
       document.querySelector(".notif-wrapper").style.display = "flex";
     });
     notifclose.addEventListener("click", function () {

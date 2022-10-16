@@ -7,6 +7,9 @@
       "default_popup": "index.html",
       "default_icon": "icon.png"
     },
+    "icons": {
+      "16":"icon.png"
+    },
     "background": {
       "service_worker": "./scripts/background.js"
     },

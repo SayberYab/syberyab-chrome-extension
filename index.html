@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="./styles/style.css">
     <link rel="stylesheet" href="./styles/toggle-style.css">
     <link rel="stylesheet" href="./styles/loading.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/puls.css">
 </header>
 
 <body>
@@ -26,26 +26,94 @@
             <div class="addwordlist-close">وارد کردن <span class="material-icons">&#xe255;</span></div>
         </div>
     </div>
-    <div class="wrapper">
-        <div class="change-wrapper">
+    <div class="addword-wrapper">
+        <div class="addword-wrapper-inner">
             <div class="wrapper-header">
-                <span class="logo-text">سایبریاب</span>
-                <span class="add-word">افزودن کلمات حساس</span>
-
+                <span class="material-icons addword-wrapper-closee">&#xe5cd;</span>
+                <!-- <span class="logo-text">کلمات حساس</span> -->
+                <span class="container">
+                    <span class="import-word">
+                        وارد کردن
+                        <span class="material-icons">&#xe255;</span>
+                    </span>
+                    <span class="export-word">
+                        کپی کردن
+                        <span class="material-icons">&#xe14d;</span>
+                        <input type="text" id="myInput" style="display: none;visibility: none;">
+                    </span>
+                </span>
             </div>
             <div class="wrapper-body">
-                <span class="body-text">
-                    سایبریاب خاموش است
-                </span>
-                <label class="switch2">
-                    <input type="checkbox">
-                    <span class="slider2 round"></span>
-                </label>
+                <div class="add-word-header">
+                    <input type="text" placeholder="کلمه مورد نظر خود را وارد کنید">
+                    <button>افزودن</button>
+                </div>
+                <div class="add-word-body-wrapper">
+                    <div class="add-word-body">
+                        <div class="lds-ellipsis">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper">
+        <div class="wrapper-header">
+            <span class="logo-text">سایبریاب</span>
+            <div class="supported-platforms">
+                <!-- <span class="supported-platforms-text">
+                    پلتفرم هایی که پشتیبانی میشوند
+                </span> -->
+                <div class="wrapper-body-inner-row">
+                    <div class="blob green">
+                        <img src="./Twitter-Logo.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="change-wrapper">
+
+            <div class="wrapper-body words-sens">
+                <div class="wrapper-body-inner-row">
+                    <label class="switch2 words">
+                        <input type="checkbox">
+                        <span class="slider2 round"></span>
+                    </label>
+                    <span class="body-text">
+                        حساسیت بر روی کلمات موجود در پروفایل
+                    </span>
+                </div>
+                <div class="wrapper-body-inner">
+                    <span class="add-word">افزودن کلمات حساس</span>
+                </div>
+            </div>
+            <div class="wrapper-body following-sens">
+                <div class="wrapper-body-inner-row">
+                    <label class="switch2 sens">
+                        <input type="checkbox">
+                        <span class="slider2 round"></span>
+                    </label>
+                    <span class="body-text">
+                        حساسیت بر روی میزان اختلاف فالوور و فالووینگ
+                    </span>
+                </div>
+                <div class="wrapper-body-inner">
+                    <input type="number" placeholder="میزان اختلاف" class="sens">
+                    <label class="description">برای مثال اگر کاربر ۵۳۰۰ فالوور داشته باشد و فالووینگ های آن ۵۱۰۰ باشد ،
+                        سایبریاب به آن
+                        مشکوک میشود در صورتی که میزان حساسیت ۲۰۰ باشد
+                    </label>
+                </div>
 
             </div>
         </div>
+
         <div class="wrapper-footer">
-            <span>توسعه داده شده با عشق در <a href="https://sayberyab.com/" target="_blank">Cyberyab</a></span>
+            <span>توسعه داده شده با عشق در <a href="https://sayberyab.com/" target="_blank">Sayberyab</a></span>
             <span class="dark-mode">
                 <span class="dark-mode-text">حالت شب</span>
                 <label class="switch">
@@ -53,12 +121,12 @@
                     <span class="slider round"></span>
                 </label>
             </span>
-
         </div>
     </div>
     <script src="./scripts/index.js"></script>
     <script src="./scripts/theme.js"></script>
     <script src="./scripts/extention-status.js"></script>
+    <script src="./scripts/following-sens-status.js"></script>
 </body>
 
 </html>

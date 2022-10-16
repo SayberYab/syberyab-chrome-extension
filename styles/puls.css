@@ -1,0 +1,56 @@
+
+.blob {
+    background: black;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
+    margin: 10px;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: row;
+    transform: scale(1);
+    animation: pulse-black 2s infinite;
+  }
+  
+  @keyframes pulse-black {
+    0% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+    }
+    
+    70% {
+      transform: scale(1);
+      box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+    }
+    
+    100% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+  }
+
+  .blob.green {
+    background: transparent;
+    /* box-shadow: 0 0 0 0 rgb(43, 80, 244); */
+    animation: pulse-green 2s infinite;
+  }
+  
+  @keyframes pulse-green {
+    0% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(0, 55, 255, 0.52);
+    }
+    
+    50% {
+      transform: scale(1);
+      box-shadow: 0 0 0 10px rgba(0, 162, 255, 0);
+    }
+    
+    100% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(0, 162, 255, 0)
+    }
+  }
+  
