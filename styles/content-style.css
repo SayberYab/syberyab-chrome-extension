@@ -1,21 +1,8 @@
-
-/* div[role=tablist] div[role=presentation]:nth-child(1) {
-    background-color: red !important;
-}
-
-
-section[role=region] {
-    background-color: red !important;
-} */
-
 .cybericheck_wrapper {
     height: 60px;
-    width: 158px;
     margin-right: 17px;
-    /* top: 0; */
     margin-top: -24px;
     display: flex;
-    /* position: relative; */
     justify-content: space-evenly;
     align-items: center;
     flex-direction: row;
@@ -24,8 +11,6 @@ section[role=region] {
 .cybericheck_inner {
     color: white;
     display: flex;
-    /* background-color: #e23434; */
-    /* position: relative; */
     justify-content: space-evenly;
     align-items: center;
     flex-direction: row;

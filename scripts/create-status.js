@@ -7,7 +7,7 @@ const Createsens_inner = Createsens_wrapper.querySelector(
 );
 const CreateStatusText = Createsens_wrapper.querySelector(".body-text");
 CreateStatusText.setAttribute("style", "opacity: 0.7;");
-Createsens_inner.setAttribute("style", "opacity: 0.2;");
+Createsens_inner.setAttribute("style", "opacity: 0.4;");
 // get extention status from "chrome.storage"
 chrome.storage.sync.get(["create_sens_status"], function (result) {
   if (
@@ -17,10 +17,7 @@ chrome.storage.sync.get(["create_sens_status"], function (result) {
   ) {
     // if cyber-status is not found , init that
     swith3(true);
-    console.log("init");
   } else if (result["create_sens_status"]) {
-    console.log("not init", result["create_sens_status"]);
-
     swith3(result["create_sens_status"]);
   }
 });
@@ -43,16 +40,14 @@ function swith3(status) {
       chrome.tabs.sendMessage(
         tabs[0].id,
         { following_sens: true },
-        function (response) {
-          console.log(response);
-        }
+        function (response) {}
       );
     });
   }
   // turn off
   if (status === false) {
     CreateStatusText.setAttribute("style", "opacity: 0.7;");
-    Createsens_inner.setAttribute("style", "opacity: 0.2;");
+    Createsens_inner.setAttribute("style", "opacity: 0.4;");
     chrome.storage.sync.set({ create_sens_status: false }, function () {
       CreateToggle.checked = false;
     });
@@ -60,9 +55,7 @@ function swith3(status) {
       chrome.tabs.sendMessage(
         tabs[0].id,
         { following_sens: false },
-        function (response) {
-          console.log(response);
-        }
+        function (response) {}
       );
     });
   }
@@ -76,8 +69,5 @@ chrome.storage.sync.get(["create_sens"], function (result) {
   if (result) create_sens_input.value = result["create_sens"];
 });
 create_sens_input.addEventListener("keyup", function () {
-  chrome.storage.sync.set(
-    { create_sens: parseInt(create_sens_input.value) },
-    console.log
-  );
+  chrome.storage.sync.set({ create_sens: parseInt(create_sens_input.value) });
 });

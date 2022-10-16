@@ -3,7 +3,7 @@ const ThemeText = document.querySelector(".dark-mode-text");
 const Themestatus = window.localStorage.getItem("theme") || null;
 if (!Themestatus || Themestatus === null) {
   window.localStorage.setItem("theme", "dark");
-  light();
+  dark();
 }
 if (Themestatus && Themestatus === "light") light();
 if (Themestatus && Themestatus === "dark") dark();

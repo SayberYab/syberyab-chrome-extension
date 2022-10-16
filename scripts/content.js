@@ -8,11 +8,9 @@ let create_sens_status = false;
 
 async function check_joined_date() {
   // check joined date
-  let joinedDate = document.querySelector("span[data-testid=UserJoinDate]");
+  let joinedDate = document.querySelector("[data-testid=UserJoinDate]");
   joinedDate = joinedDate.innerText.replace(/^\D+/g, "");
   joinedDate = joinedDate && parseInt(joinedDate);
-  console.log(joinedDate);
-  console.log(joinedDate - create_sens_input);
   if (joinedDate && create_sens_input && joinedDate > create_sens_input) {
     cyberPercent += joinedDate - create_sens_input;
   }
@@ -21,9 +19,13 @@ async function check_joined_date() {
 async function check_name() {
   // check name
   let name = document.querySelector("title");
-  if (name) {
+  if (name && words_array && words_array.length) {
     for (let i = 0; i < words_array.length; i++) {
-      if (name.innerText.includes(words_array[i])) {
+      if (
+        name.innerText
+          .toLocaleLowerCase()
+          .includes(words_array[i].toLocaleLowerCase())
+      ) {
         cyberPercent += 30;
       }
     }
@@ -34,9 +36,13 @@ async function check_username() {
   const url = window.location.href;
   const username = url.split("/")[3];
   //check username
-  if (username) {
+  if (username && words_array && words_array.length) {
     for (let i = 0; i < words_array.length; i++) {
-      if (username.includes(words_array[i])) {
+      if (
+        username
+          .toLocaleLowerCase()
+          .includes(words_array[i].toLocaleLowerCase())
+      ) {
         cyberPercent += 30;
       }
     }
@@ -45,12 +51,20 @@ async function check_username() {
 
 async function check_description() {
   //check description
-  let description = document.querySelector("div[data-testid=UserDescription]");
-  if (description) {
+  let description = document.querySelector("[data-testid=UserDescription]");
+  if (
+    description &&
+    words_array &&
+    words_array.length &&
+    words_array.length > 0
+  ) {
     for (let i = 0; i < words_array.length; i++) {
-      if (description.innerText.includes(words_array[i])) {
+      if (
+        description.innerText
+          .toLocaleLowerCase()
+          .includes(words_array[i].toLocaleLowerCase())
+      ) {
         cyberPercent += 10;
-        console.log(words_array[i]);
       }
     }
   }
@@ -80,12 +94,15 @@ async function check_followerـdifference() {
 
 async function check_location() {
   //check location
-  let location = document.querySelector("div[data-testid=UserLocation]");
-  if (location) {
+  let location = document.querySelector("[data-testid=UserLocation]");
+  if (location && words_array && words_array.length) {
     for (let i = 0; i < words_array.length; i++) {
-      if (location.innerText.includes(words_array[i])) {
+      if (
+        location.innerText
+          .toLocaleLowerCase()
+          .includes(words_array[i].toLocaleLowerCase())
+      ) {
         cyberPercent += 10;
-        console.log(words_array[i]);
       }
     }
   }
@@ -95,7 +112,6 @@ async function GetDataFromBackground() {
   await chrome.runtime.sendMessage(
     { message: "get-data" },
     function (response) {
-      console.log(response);
       if (response.words_status) words_status = response.words_status;
       if (response.words) words_array = JSON.parse(response.words);
       if (response.following_sens) sens_input = response.following_sens;
@@ -152,24 +168,30 @@ async function analyze() {
       }
       if (sens_status) await check_followerـdifference();
       if (create_sens_status) await check_joined_date();
-      console.log("updated 152");
-      Cyberycheck_inner.innerText = `${
-        cyberPercent < 0 ? 0 : cyberPercent > 100 ? 100 : cyberPercent
-      }% ناامن است`;
-      Cyberycheck_inner.setAttribute(
-        "style",
-        `background-color : rgb(${
-          cyberPercent > 50
-            ? cyberPercent + 155
-            : cyberPercent === 0
-            ? 0
-            : cyberPercent < 30
-            ? cyberPercent + 50
-            : cyberPercent < 50
-            ? cyberPercent + 100
-            : cyberPercent
-        }, 40, 0);`
-      );
+
+      if (!words_status && !sens_status && !create_sens_status) {
+        Cyberycheck_inner.innerText = "سایبریاب خاموش است";
+        Cyberycheck_inner.setAttribute("style", `background-color : #4e4e4e`);
+      } else {
+        Cyberycheck_inner.innerText = `${
+          cyberPercent < 0 ? 0 : cyberPercent > 100 ? 100 : cyberPercent
+        }% ناامن است`;
+        Cyberycheck_inner.setAttribute(
+          "style",
+          `background-color : rgb(${
+            cyberPercent > 50
+              ? cyberPercent + 155
+              : cyberPercent === 0
+              ? 0
+              : cyberPercent < 30
+              ? cyberPercent + 50
+              : cyberPercent < 50
+              ? cyberPercent + 100
+              : cyberPercent
+          }, 40, 0);`
+        );
+      }
+
       clearInterval(intervalId);
     }
   }, 1000);
@@ -191,7 +213,7 @@ window.addEventListener("load", async function () {
 });
 
 chrome.runtime.onMessage.addListener(async function (request) {
-  if (request.message === "TabUpdated") {
+  if (request.message === "TabUpdated" || request.message === "dataUpdated") {
     cyberPercent = 0;
     await CreateWrapper();
     await analyze();

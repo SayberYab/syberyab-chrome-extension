@@ -9,7 +9,7 @@ const followingsens_inner = followingsens_wrapper.querySelector(
 );
 const followingStatusText = followingsens_wrapper.querySelector(".body-text");
 followingStatusText.setAttribute("style", "opacity: 0.7;");
-followingsens_inner.setAttribute("style", "opacity: 0.2;");
+followingsens_inner.setAttribute("style", "opacity: 0.4;");
 // get extention status from "chrome.storage"
 chrome.storage.sync.get(["following_sens_status"], function (result) {
   if (
@@ -19,10 +19,7 @@ chrome.storage.sync.get(["following_sens_status"], function (result) {
   ) {
     // if cyber-status is not found , init that
     swith(true);
-    console.log("init");
   } else if (result["following_sens_status"]) {
-    console.log("not init", result["following_sens_status"]);
-
     swith(result["following_sens_status"]);
   }
 });
@@ -45,16 +42,14 @@ function swith(status) {
       chrome.tabs.sendMessage(
         tabs[0].id,
         { following_sens: true },
-        function (response) {
-          console.log(response);
-        }
+        function (response) {}
       );
     });
   }
   // turn off
   if (status === false) {
     followingStatusText.setAttribute("style", "opacity: 0.7;");
-    followingsens_inner.setAttribute("style", "opacity: 0.2;");
+    followingsens_inner.setAttribute("style", "opacity: 0.4;");
     chrome.storage.sync.set({ following_sens_status: false }, function () {
       followingStatus.checked = false;
     });
@@ -62,9 +57,7 @@ function swith(status) {
       chrome.tabs.sendMessage(
         tabs[0].id,
         { following_sens: false },
-        function (response) {
-          console.log(response);
-        }
+        function (response) {}
       );
     });
   }
@@ -78,8 +71,7 @@ chrome.storage.sync.get(["following_sens"], function (result) {
   if (result) following_sens_input.value = result["following_sens"];
 });
 following_sens_input.addEventListener("keyup", function () {
-  chrome.storage.sync.set(
-    { following_sens: parseInt(following_sens_input.value) },
-    console.log
-  );
+  chrome.storage.sync.set({
+    following_sens: parseInt(following_sens_input.value),
+  });
 });

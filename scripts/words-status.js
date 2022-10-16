@@ -5,7 +5,7 @@ const wordssens_wrapper = document.querySelector(".wrapper-body.words-sens");
 const wordssens_inner = wordssens_wrapper.querySelector(".wrapper-body-inner");
 const wordsStatusText = wordssens_wrapper.querySelector(".body-text");
 wordsStatusText.setAttribute("style", "opacity: 0.7;");
-wordssens_inner.setAttribute("style", "opacity: 0.2;");
+wordssens_inner.setAttribute("style", "opacity: 0.4;");
 // get extention status from "chrome.storage"
 chrome.storage.sync.get(["cyber-status"], function (result) {
   if (
@@ -14,10 +14,7 @@ chrome.storage.sync.get(["cyber-status"], function (result) {
   ) {
     // if cyber-status is not found , init that
     swith2(true);
-    console.log("init");
   } else if (result["cyber-status"]) {
-    console.log("not init", result["cyber-status"]);
-
     swith2(result["cyber-status"]);
   }
 });
@@ -49,7 +46,7 @@ function swith2(status) {
   // turn off
   if (status === false) {
     wordsStatusText.setAttribute("style", "opacity: 0.7;");
-    wordssens_inner.setAttribute("style", "opacity: 0.2;");
+    wordssens_inner.setAttribute("style", "opacity: 0.4;");
     chrome.storage.sync.set({ "cyber-status": false }, function () {
       CyberToggle.checked = false;
     });

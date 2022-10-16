@@ -44,7 +44,6 @@ addWord.addEventListener("click", function () {
     const words_body = document.querySelector(".add-word-body");
     let words = null;
     chrome.storage.sync.get(["cyber-words"], function (result) {
-      console.log(result);
       if (
         !result["cyber-words"] ||
         !JSON.parse(result["cyber-words"]).length > 0
@@ -59,7 +58,6 @@ addWord.addEventListener("click", function () {
         words = result["cyber-words"];
         words_body.innerHTML = "";
         const temp = new Set(JSON.parse(words));
-        console.log(temp);
         temp.forEach((element) => {
           words_body_item(words_body, element, words);
         });
@@ -129,7 +127,6 @@ addWord.addEventListener("click", function () {
         }
       );
       chrome.storage.sync.get(["cyber-words"], function (result) {
-        console.log(result);
         if (
           !result["cyber-words"] ||
           !JSON.parse(result["cyber-words"]).length > 0
@@ -144,7 +141,6 @@ addWord.addEventListener("click", function () {
           words = result["cyber-words"];
           words_body.innerHTML = "";
           const temp = new Set(JSON.parse(words));
-          console.log(temp);
           temp.forEach((element) => {
             words_body_item(words_body, element, words);
           });
