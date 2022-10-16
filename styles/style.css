@@ -76,7 +76,7 @@ h1, h2, h3, h4, h5, h6,input, textarea,button {
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    gap: 50px;
+    gap: 20px;
     padding: 20px 0;
 }
 
@@ -556,4 +556,19 @@ label.description {
 
 .addword-wrapper .wrapper-body {
   border-bottom: unset !important;
+}
+
+input.create-sens {
+  border: none;
+  outline: none;
+  background-color: var(--secondary-color);
+  color: var(--font-color);
+  width: 30%;
+  height: 40px;
+  border-radius: 5px;
+  padding: 0 10px;
+}
+
+input.create-sens::placeholder {
+  color: var(--secondary-font-color);
 }

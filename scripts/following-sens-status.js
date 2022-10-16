@@ -11,18 +11,19 @@ const followingStatusText = followingsens_wrapper.querySelector(".body-text");
 followingStatusText.setAttribute("style", "opacity: 0.7;");
 followingsens_inner.setAttribute("style", "opacity: 0.2;");
 // get extention status from "chrome.storage"
-chrome.storage.sync.get(["following_sens"], function (result) {
+chrome.storage.sync.get(["following_sens_status"], function (result) {
   if (
     !result ||
-    (!result["following_sens"] === true && !result["following_sens"] === false)
+    (!result["following_sens_status"] === true &&
+      !result["following_sens_status"] === false)
   ) {
     // if cyber-status is not found , init that
     swith(true);
     console.log("init");
-  } else if (result["following_sens"]) {
-    console.log("not init", result["following_sens"]);
+  } else if (result["following_sens_status"]) {
+    console.log("not init", result["following_sens_status"]);
 
-    swith(result["following_sens"]);
+    swith(result["following_sens_status"]);
   }
 });
 
@@ -37,7 +38,7 @@ function swith(status) {
   if (status === true) {
     followingStatusText.setAttribute("style", "opacity: 1;");
     followingsens_inner.setAttribute("style", "opacity: 1;");
-    chrome.storage.sync.set({ following_sens: true }, function () {
+    chrome.storage.sync.set({ following_sens_status: true }, function () {
       followingStatus.checked = true;
     });
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -54,7 +55,7 @@ function swith(status) {
   if (status === false) {
     followingStatusText.setAttribute("style", "opacity: 0.7;");
     followingsens_inner.setAttribute("style", "opacity: 0.2;");
-    chrome.storage.sync.set({ following_sens: false }, function () {
+    chrome.storage.sync.set({ following_sens_status: false }, function () {
       followingStatus.checked = false;
     });
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -68,3 +69,17 @@ function swith(status) {
     });
   }
 }
+
+// save following sens to storage
+const following_sens_input = document.querySelector(
+  ".following-sens input[type=number]"
+);
+chrome.storage.sync.get(["following_sens"], function (result) {
+  if (result) following_sens_input.value = result["following_sens"];
+});
+following_sens_input.addEventListener("keyup", function () {
+  chrome.storage.sync.set(
+    { following_sens: parseInt(following_sens_input.value) },
+    console.log
+  );
+});

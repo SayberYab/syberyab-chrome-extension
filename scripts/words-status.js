@@ -48,7 +48,6 @@ function swith2(status) {
   }
   // turn off
   if (status === false) {
-    console.log("off l");
     wordsStatusText.setAttribute("style", "opacity: 0.7;");
     wordssens_inner.setAttribute("style", "opacity: 0.2;");
     chrome.storage.sync.set({ "cyber-status": false }, function () {

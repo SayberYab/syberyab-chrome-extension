@@ -22,20 +22,6 @@ function words_body_item(wrapper, text, words) {
 }
 const addWord = document.querySelector(".add-word");
 addWord.addEventListener("click", function () {
-  // fetch("./pages/addword.html")
-  //   .then((response) => response.text())
-  //   .then(
-  //     (text) => (document.querySelector(".change-wrapper").innerHTML = text)
-  //   );
-
-  // const subclose = document.querySelector(".sub-header-close");
-  // function klhhh() {
-  //   fetch("../pages/home.html")
-  //     .then((response) => response.text())
-  //     .then(
-  //       (text) => (document.querySelector(".change-wrapper").innerText = text)
-  //     );
-  // }
   document.querySelector(".addword-wrapper").style.display = "flex";
   const addwordwrapperclose = document.querySelector(".addword-wrapper-closee");
   addwordwrapperclose.addEventListener("click", function () {
