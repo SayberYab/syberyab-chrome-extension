@@ -7,10 +7,10 @@ function words_body_item(wrapper, text, words) {
 
   item.addEventListener("click", function () {
     item.remove();
-    const temp = new Set(JSON.parse(words));
-    temp.delete(text);
+    // const temp = new Set(JSON.parse(words));
+    words.splice(words.indexOf(text), 1);
     chrome.storage.sync.set(
-      { "cyber-words": JSON.stringify(Array.from(temp)) },
+      { "cyber-words": JSON.stringify(words) },
       function () {
         addInput.value = "";
       }
@@ -19,6 +19,7 @@ function words_body_item(wrapper, text, words) {
   item.innerText = text;
   item.appendChild(itemicon);
   wrapper.appendChild(item);
+  return words;
 }
 const addWord = document.querySelector(".add-word");
 addWord.addEventListener("click", function () {
@@ -42,7 +43,7 @@ addWord.addEventListener("click", function () {
       ".addwordlist-wrapper-close"
     );
     const words_body = document.querySelector(".add-word-body");
-    let words = null;
+    let words = [];
     chrome.storage.sync.get(["cyber-words"], function (result) {
       if (
         !result["cyber-words"] ||
@@ -55,9 +56,9 @@ addWord.addEventListener("click", function () {
         result["cyber-words"] &&
         JSON.parse(result["cyber-words"]).length > 0
       ) {
-        words = result["cyber-words"];
+        words = JSON.parse(result["cyber-words"]);
         words_body.innerHTML = "";
-        const temp = new Set(JSON.parse(words));
+        const temp = new Set(words);
         temp.forEach((element) => {
           words_body_item(words_body, element, words);
         });
@@ -65,22 +66,21 @@ addWord.addEventListener("click", function () {
     });
 
     function additemtowords() {
-      if (words && JSON.parse(words).length > 0 && addInput.value) {
-        const temp = new Set(JSON.parse(words));
-        temp.add(addInput.value);
+      if (words && words.length > 0 && addInput.value) {
+        console.log(words);
+        words.push(addInput.value);
         words_body_item(words_body, addInput.value);
         chrome.storage.sync.set(
-          { "cyber-words": JSON.stringify(Array.from(temp)) },
+          { "cyber-words": JSON.stringify(words) },
           function () {
             addInput.value = "";
           }
         );
       } else if (addInput.value) {
-        const temp = new Set([]);
-        temp.add(addInput.value);
-        words_body_item(words_body, addInput.value);
+        words.push(addInput.value);
+        words_body_item(words_body, addInput.value, words);
         chrome.storage.sync.set(
-          { "cyber-words": JSON.stringify(Array.from(temp)) },
+          { "cyber-words": JSON.stringify(words) },
           function () {
             addInput.value = "";
           }

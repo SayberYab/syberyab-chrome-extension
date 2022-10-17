@@ -136,7 +136,7 @@ async function CreateWrapper() {
       ".cybericheck_wrapper"
     );
     if (retry++ > 10 || (profile && moreButton)) {
-      if (!cybericheck_wrapper_check) {
+      if (!cybericheck_wrapper_check && profile) {
         const cyberycheckWrapper = document.createElement("div");
         const cyberycheck_inner = document.createElement("div");
         cyberycheckWrapper.classList = "cybericheck_wrapper";
@@ -159,7 +159,10 @@ async function analyze() {
     );
     let Cyberycheck_inner = document.querySelector(".cybericheck_inner");
 
-    if (retry++ > 10 || (profile && Cyberycheck_inner && moreButton)) {
+    if (
+      (retry++ > 10 && profile) ||
+      (profile && Cyberycheck_inner && moreButton)
+    ) {
       if (words_status) {
         await check_username();
         await check_name();

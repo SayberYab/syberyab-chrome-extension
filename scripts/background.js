@@ -58,7 +58,7 @@ chrome.tabs.onUpdated.addListener(async function (tabId, changeInfo, tab) {
 });
 
 chrome.runtime.onInstalled.addListener(function (details) {
-  let updateurl = "https://sayberyab.com/versions";
+  let updateurl = "https://sayberyab.com/help";
   let installurl = "https://sayberyab.com/help";
   if (details.reason == "install") {
     chrome.tabs.create({ url: installurl });
